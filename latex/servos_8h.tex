@@ -1,0 +1,206 @@
+\hypertarget{servos_8h}{}\doxysection{Final\+\_\+\+Lab\+\_\+\+Motor\+\_\+\+Control/\+Final\+\_\+\+Lab\+\_\+\+Motor\+\_\+\+Control/main/servos.h File Reference}
+\label{servos_8h}\index{Final\_Lab\_Motor\_Control/Final\_Lab\_Motor\_Control/main/servos.h@{Final\_Lab\_Motor\_Control/Final\_Lab\_Motor\_Control/main/servos.h}}
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$inttypes.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}math.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}driver/gpio.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}driver/ledc.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}freertos/\+Free\+RTOS.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}freertos/task.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Free\+RTOSConfig.\+h\char`\"{}}\newline
+Include dependency graph for servos.\+h\+:
+% FIG 0
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{servos_8h_a590d609a43caad5d85acb654f4c8dc86}{LEDC\+\_\+\+FREQ}}~(50)
+\item 
+\#define \mbox{\hyperlink{servos_8h_ac73f4c96182cfaf9eeb4a3ae7f6b6c35}{SERVO\+\_\+1\+\_\+\+CTRL\+\_\+\+PIN}}~(GPIO\+\_\+\+NUM\+\_\+4)
+\item 
+\#define \mbox{\hyperlink{servos_8h_a3f89b0e00805bf5e0066243cdb3883c4}{SERVO\+\_\+2\+\_\+\+CTRL\+\_\+\+PIN}}~(GPIO\+\_\+\+NUM\+\_\+1)
+\item 
+\#define \mbox{\hyperlink{servos_8h_ac8e832e28b4092b88b801b44fb2478f8}{LEDC\+\_\+\+NEUTRAL\+\_\+\+POS\+\_\+\+DUTY}}~(614)
+\item 
+\#define \mbox{\hyperlink{servos_8h_a1938ddea0aa2ff412bbc91a40e9c09eb}{LEDC\+\_\+\+MIN\+\_\+\+POS\+\_\+\+DUTY}}~(210)
+\item 
+\#define \mbox{\hyperlink{servos_8h_a30b82e9026b7e47bebb9764ef4dab01d}{LEDC\+\_\+\+MAX\+\_\+\+POS\+\_\+\+DUTY}}~(1020)
+\item 
+\#define \mbox{\hyperlink{servos_8h_acfea6ed126aef91f59c70168e84bce82}{SLOPE\+\_\+\+SERVO}}~(4.\+5)
+\item 
+\#define \mbox{\hyperlink{servos_8h_a675c82561a81ea516f793e5e7e11155d}{INTERCEPT\+\_\+\+SERVO}}~(210)
+\item 
+\#define \mbox{\hyperlink{servos_8h_a87ce239612e75361a83f2154466fe1a0}{TOP\+\_\+\+LEFT\+\_\+\+S1}}~(51)
+\item 
+\#define \mbox{\hyperlink{servos_8h_a32c609643e6e7aa48682eba9fa2eb752}{TOP\+\_\+\+LEFT\+\_\+\+S2}}~(127)
+\item 
+\#define \mbox{\hyperlink{servos_8h_aa7f8bac4ff85ad501e926167631749bb}{START\+\_\+X}}~(0)
+\item 
+\#define \mbox{\hyperlink{servos_8h_ae28b1a95ee25def272409b9b8ce57f73}{START\+\_\+Y}}~(0)
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{servos_8h_af68eb3b6dac29f70cc11474981f5ff20}{set\+\_\+angle\+\_\+servo\+\_\+1}} (uint8\+\_\+t angle)
+\begin{DoxyCompactList}\small\item\em Moves servo 1 to the specified angle. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{servos_8h_aaa184b079a8787c15f963e528a6d4155}{set\+\_\+angle\+\_\+servo\+\_\+2}} (uint8\+\_\+t angle)
+\begin{DoxyCompactList}\small\item\em Moves servo 2 to the specified angle. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{servos_8h_a08c3bd29d892d8d5ec75d81a93612c1c}{move\+\_\+arm\+\_\+to\+\_\+target}} (uint8\+\_\+t target\+\_\+s1, uint8\+\_\+t target\+\_\+s2)
+\begin{DoxyCompactList}\small\item\em This functions coordinates the movement of both motors. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{servos_8h_abd04910c19badf60337cea3b76ce4926}{current\+\_\+s1\+\_\+angle}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{servos_8h_ab6078be852c6c94bcf5538edb06413ef}{current\+\_\+s2\+\_\+angle}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{servos_8h_a675c82561a81ea516f793e5e7e11155d}\label{servos_8h_a675c82561a81ea516f793e5e7e11155d}} 
+\index{servos.h@{servos.h}!INTERCEPT\_SERVO@{INTERCEPT\_SERVO}}
+\index{INTERCEPT\_SERVO@{INTERCEPT\_SERVO}!servos.h@{servos.h}}
+\doxysubsubsection{\texorpdfstring{INTERCEPT\_SERVO}{INTERCEPT\_SERVO}}
+{\footnotesize\ttfamily \#define INTERCEPT\+\_\+\+SERVO~(210)}
+
+\mbox{\Hypertarget{servos_8h_a590d609a43caad5d85acb654f4c8dc86}\label{servos_8h_a590d609a43caad5d85acb654f4c8dc86}} 
+\index{servos.h@{servos.h}!LEDC\_FREQ@{LEDC\_FREQ}}
+\index{LEDC\_FREQ@{LEDC\_FREQ}!servos.h@{servos.h}}
+\doxysubsubsection{\texorpdfstring{LEDC\_FREQ}{LEDC\_FREQ}}
+{\footnotesize\ttfamily \#define LEDC\+\_\+\+FREQ~(50)}
+
+\mbox{\Hypertarget{servos_8h_a30b82e9026b7e47bebb9764ef4dab01d}\label{servos_8h_a30b82e9026b7e47bebb9764ef4dab01d}} 
+\index{servos.h@{servos.h}!LEDC\_MAX\_POS\_DUTY@{LEDC\_MAX\_POS\_DUTY}}
+\index{LEDC\_MAX\_POS\_DUTY@{LEDC\_MAX\_POS\_DUTY}!servos.h@{servos.h}}
+\doxysubsubsection{\texorpdfstring{LEDC\_MAX\_POS\_DUTY}{LEDC\_MAX\_POS\_DUTY}}
+{\footnotesize\ttfamily \#define LEDC\+\_\+\+MAX\+\_\+\+POS\+\_\+\+DUTY~(1020)}
+
+\mbox{\Hypertarget{servos_8h_a1938ddea0aa2ff412bbc91a40e9c09eb}\label{servos_8h_a1938ddea0aa2ff412bbc91a40e9c09eb}} 
+\index{servos.h@{servos.h}!LEDC\_MIN\_POS\_DUTY@{LEDC\_MIN\_POS\_DUTY}}
+\index{LEDC\_MIN\_POS\_DUTY@{LEDC\_MIN\_POS\_DUTY}!servos.h@{servos.h}}
+\doxysubsubsection{\texorpdfstring{LEDC\_MIN\_POS\_DUTY}{LEDC\_MIN\_POS\_DUTY}}
+{\footnotesize\ttfamily \#define LEDC\+\_\+\+MIN\+\_\+\+POS\+\_\+\+DUTY~(210)}
+
+\mbox{\Hypertarget{servos_8h_ac8e832e28b4092b88b801b44fb2478f8}\label{servos_8h_ac8e832e28b4092b88b801b44fb2478f8}} 
+\index{servos.h@{servos.h}!LEDC\_NEUTRAL\_POS\_DUTY@{LEDC\_NEUTRAL\_POS\_DUTY}}
+\index{LEDC\_NEUTRAL\_POS\_DUTY@{LEDC\_NEUTRAL\_POS\_DUTY}!servos.h@{servos.h}}
+\doxysubsubsection{\texorpdfstring{LEDC\_NEUTRAL\_POS\_DUTY}{LEDC\_NEUTRAL\_POS\_DUTY}}
+{\footnotesize\ttfamily \#define LEDC\+\_\+\+NEUTRAL\+\_\+\+POS\+\_\+\+DUTY~(614)}
+
+\mbox{\Hypertarget{servos_8h_ac73f4c96182cfaf9eeb4a3ae7f6b6c35}\label{servos_8h_ac73f4c96182cfaf9eeb4a3ae7f6b6c35}} 
+\index{servos.h@{servos.h}!SERVO\_1\_CTRL\_PIN@{SERVO\_1\_CTRL\_PIN}}
+\index{SERVO\_1\_CTRL\_PIN@{SERVO\_1\_CTRL\_PIN}!servos.h@{servos.h}}
+\doxysubsubsection{\texorpdfstring{SERVO\_1\_CTRL\_PIN}{SERVO\_1\_CTRL\_PIN}}
+{\footnotesize\ttfamily \#define SERVO\+\_\+1\+\_\+\+CTRL\+\_\+\+PIN~(GPIO\+\_\+\+NUM\+\_\+4)}
+
+\mbox{\Hypertarget{servos_8h_a3f89b0e00805bf5e0066243cdb3883c4}\label{servos_8h_a3f89b0e00805bf5e0066243cdb3883c4}} 
+\index{servos.h@{servos.h}!SERVO\_2\_CTRL\_PIN@{SERVO\_2\_CTRL\_PIN}}
+\index{SERVO\_2\_CTRL\_PIN@{SERVO\_2\_CTRL\_PIN}!servos.h@{servos.h}}
+\doxysubsubsection{\texorpdfstring{SERVO\_2\_CTRL\_PIN}{SERVO\_2\_CTRL\_PIN}}
+{\footnotesize\ttfamily \#define SERVO\+\_\+2\+\_\+\+CTRL\+\_\+\+PIN~(GPIO\+\_\+\+NUM\+\_\+1)}
+
+\mbox{\Hypertarget{servos_8h_acfea6ed126aef91f59c70168e84bce82}\label{servos_8h_acfea6ed126aef91f59c70168e84bce82}} 
+\index{servos.h@{servos.h}!SLOPE\_SERVO@{SLOPE\_SERVO}}
+\index{SLOPE\_SERVO@{SLOPE\_SERVO}!servos.h@{servos.h}}
+\doxysubsubsection{\texorpdfstring{SLOPE\_SERVO}{SLOPE\_SERVO}}
+{\footnotesize\ttfamily \#define SLOPE\+\_\+\+SERVO~(4.\+5)}
+
+\mbox{\Hypertarget{servos_8h_aa7f8bac4ff85ad501e926167631749bb}\label{servos_8h_aa7f8bac4ff85ad501e926167631749bb}} 
+\index{servos.h@{servos.h}!START\_X@{START\_X}}
+\index{START\_X@{START\_X}!servos.h@{servos.h}}
+\doxysubsubsection{\texorpdfstring{START\_X}{START\_X}}
+{\footnotesize\ttfamily \#define START\+\_\+X~(0)}
+
+\mbox{\Hypertarget{servos_8h_ae28b1a95ee25def272409b9b8ce57f73}\label{servos_8h_ae28b1a95ee25def272409b9b8ce57f73}} 
+\index{servos.h@{servos.h}!START\_Y@{START\_Y}}
+\index{START\_Y@{START\_Y}!servos.h@{servos.h}}
+\doxysubsubsection{\texorpdfstring{START\_Y}{START\_Y}}
+{\footnotesize\ttfamily \#define START\+\_\+Y~(0)}
+
+\mbox{\Hypertarget{servos_8h_a87ce239612e75361a83f2154466fe1a0}\label{servos_8h_a87ce239612e75361a83f2154466fe1a0}} 
+\index{servos.h@{servos.h}!TOP\_LEFT\_S1@{TOP\_LEFT\_S1}}
+\index{TOP\_LEFT\_S1@{TOP\_LEFT\_S1}!servos.h@{servos.h}}
+\doxysubsubsection{\texorpdfstring{TOP\_LEFT\_S1}{TOP\_LEFT\_S1}}
+{\footnotesize\ttfamily \#define TOP\+\_\+\+LEFT\+\_\+\+S1~(51)}
+
+\mbox{\Hypertarget{servos_8h_a32c609643e6e7aa48682eba9fa2eb752}\label{servos_8h_a32c609643e6e7aa48682eba9fa2eb752}} 
+\index{servos.h@{servos.h}!TOP\_LEFT\_S2@{TOP\_LEFT\_S2}}
+\index{TOP\_LEFT\_S2@{TOP\_LEFT\_S2}!servos.h@{servos.h}}
+\doxysubsubsection{\texorpdfstring{TOP\_LEFT\_S2}{TOP\_LEFT\_S2}}
+{\footnotesize\ttfamily \#define TOP\+\_\+\+LEFT\+\_\+\+S2~(127)}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{servos_8h_a08c3bd29d892d8d5ec75d81a93612c1c}\label{servos_8h_a08c3bd29d892d8d5ec75d81a93612c1c}} 
+\index{servos.h@{servos.h}!move\_arm\_to\_target@{move\_arm\_to\_target}}
+\index{move\_arm\_to\_target@{move\_arm\_to\_target}!servos.h@{servos.h}}
+\doxysubsubsection{\texorpdfstring{move\_arm\_to\_target()}{move\_arm\_to\_target()}}
+{\footnotesize\ttfamily void move\+\_\+arm\+\_\+to\+\_\+target (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{target\+\_\+s1,  }\item[{uint8\+\_\+t}]{target\+\_\+s2 }\end{DoxyParamCaption})}
+
+
+
+This functions coordinates the movement of both motors. 
+
+Divides the target angle into steps and calls the set\+\_\+angle\+\_\+servo\+\_\+x() functions every step to smoothtly transition into the target position 
+\begin{DoxyParams}{Parameters}
+{\em targer\+\_\+s1} & Target angle of servo 1 \\
+\hline
+{\em target\+\_\+s2} & Target angle of servo 2 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+\mbox{\Hypertarget{servos_8h_af68eb3b6dac29f70cc11474981f5ff20}\label{servos_8h_af68eb3b6dac29f70cc11474981f5ff20}} 
+\index{servos.h@{servos.h}!set\_angle\_servo\_1@{set\_angle\_servo\_1}}
+\index{set\_angle\_servo\_1@{set\_angle\_servo\_1}!servos.h@{servos.h}}
+\doxysubsubsection{\texorpdfstring{set\_angle\_servo\_1()}{set\_angle\_servo\_1()}}
+{\footnotesize\ttfamily void set\+\_\+angle\+\_\+servo\+\_\+1 (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{angle }\end{DoxyParamCaption})}
+
+
+
+Moves servo 1 to the specified angle. 
+
+The Micro Servo 9g requires a PWM signal at 50 Hz as an input to control the angle of the motor. Each duty cycle value between 2.\+5\% and 12.\+5\% maps to an angle between 0° and 180° respectively. A simple linear function was used to map this values, its slope and intercept are defined as SLOPE\+\_\+\+SERVO and INTERCEPT\+\_\+\+SERVO 
+\begin{DoxyParams}{Parameters}
+{\em angle} & The angle to turn to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+\mbox{\Hypertarget{servos_8h_aaa184b079a8787c15f963e528a6d4155}\label{servos_8h_aaa184b079a8787c15f963e528a6d4155}} 
+\index{servos.h@{servos.h}!set\_angle\_servo\_2@{set\_angle\_servo\_2}}
+\index{set\_angle\_servo\_2@{set\_angle\_servo\_2}!servos.h@{servos.h}}
+\doxysubsubsection{\texorpdfstring{set\_angle\_servo\_2()}{set\_angle\_servo\_2()}}
+{\footnotesize\ttfamily void set\+\_\+angle\+\_\+servo\+\_\+2 (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{angle }\end{DoxyParamCaption})}
+
+
+
+Moves servo 2 to the specified angle. 
+
+The Micro Servo 9g requires a PWM signal at 50 Hz as an input to control the angle of the motor. Each duty cycle value between 2.\+5\% and 12.\+5\% maps to an angle between 0° and 180° respectively. A simple linear function was used to map this values, its slope and intercept are defined as SLOPE\+\_\+\+SERVO and INTERCEPT\+\_\+\+SERVO 
+\begin{DoxyParams}{Parameters}
+{\em angle} & The angle to turn to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{servos_8h_abd04910c19badf60337cea3b76ce4926}\label{servos_8h_abd04910c19badf60337cea3b76ce4926}} 
+\index{servos.h@{servos.h}!current\_s1\_angle@{current\_s1\_angle}}
+\index{current\_s1\_angle@{current\_s1\_angle}!servos.h@{servos.h}}
+\doxysubsubsection{\texorpdfstring{current\_s1\_angle}{current\_s1\_angle}}
+{\footnotesize\ttfamily uint8\+\_\+t current\+\_\+s1\+\_\+angle\hspace{0.3cm}{\ttfamily [extern]}}
+
+\mbox{\Hypertarget{servos_8h_ab6078be852c6c94bcf5538edb06413ef}\label{servos_8h_ab6078be852c6c94bcf5538edb06413ef}} 
+\index{servos.h@{servos.h}!current\_s2\_angle@{current\_s2\_angle}}
+\index{current\_s2\_angle@{current\_s2\_angle}!servos.h@{servos.h}}
+\doxysubsubsection{\texorpdfstring{current\_s2\_angle}{current\_s2\_angle}}
+{\footnotesize\ttfamily uint8\+\_\+t current\+\_\+s2\+\_\+angle\hspace{0.3cm}{\ttfamily [extern]}}
+

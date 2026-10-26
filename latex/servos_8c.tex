@@ -1,0 +1,73 @@
+\hypertarget{servos_8c}{}\doxysection{Final\+\_\+\+Lab\+\_\+\+Motor\+\_\+\+Control/\+Final\+\_\+\+Lab\+\_\+\+Motor\+\_\+\+Control/main/servos.c File Reference}
+\label{servos_8c}\index{Final\_Lab\_Motor\_Control/Final\_Lab\_Motor\_Control/main/servos.c@{Final\_Lab\_Motor\_Control/Final\_Lab\_Motor\_Control/main/servos.c}}
+{\ttfamily \#include \char`\"{}servos.\+h\char`\"{}}\newline
+Include dependency graph for servos.\+c\+:
+% FIG 0
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{servos_8c_af68eb3b6dac29f70cc11474981f5ff20}{set\+\_\+angle\+\_\+servo\+\_\+1}} (uint8\+\_\+t angle)
+\begin{DoxyCompactList}\small\item\em Moves servo 1 to the specified angle. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{servos_8c_aaa184b079a8787c15f963e528a6d4155}{set\+\_\+angle\+\_\+servo\+\_\+2}} (uint8\+\_\+t angle)
+\begin{DoxyCompactList}\small\item\em Moves servo 2 to the specified angle. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{servos_8c_a08c3bd29d892d8d5ec75d81a93612c1c}{move\+\_\+arm\+\_\+to\+\_\+target}} (uint8\+\_\+t target\+\_\+s1, uint8\+\_\+t target\+\_\+s2)
+\begin{DoxyCompactList}\small\item\em This functions coordinates the movement of both motors. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{servos_8c_a08c3bd29d892d8d5ec75d81a93612c1c}\label{servos_8c_a08c3bd29d892d8d5ec75d81a93612c1c}} 
+\index{servos.c@{servos.c}!move\_arm\_to\_target@{move\_arm\_to\_target}}
+\index{move\_arm\_to\_target@{move\_arm\_to\_target}!servos.c@{servos.c}}
+\doxysubsubsection{\texorpdfstring{move\_arm\_to\_target()}{move\_arm\_to\_target()}}
+{\footnotesize\ttfamily void move\+\_\+arm\+\_\+to\+\_\+target (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{target\+\_\+s1,  }\item[{uint8\+\_\+t}]{target\+\_\+s2 }\end{DoxyParamCaption})}
+
+
+
+This functions coordinates the movement of both motors. 
+
+Divides the target angle into steps and calls the set\+\_\+angle\+\_\+servo\+\_\+x() functions every step to smoothtly transition into the target position 
+\begin{DoxyParams}{Parameters}
+{\em targer\+\_\+s1} & Target angle of servo 1 \\
+\hline
+{\em target\+\_\+s2} & Target angle of servo 2 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+\mbox{\Hypertarget{servos_8c_af68eb3b6dac29f70cc11474981f5ff20}\label{servos_8c_af68eb3b6dac29f70cc11474981f5ff20}} 
+\index{servos.c@{servos.c}!set\_angle\_servo\_1@{set\_angle\_servo\_1}}
+\index{set\_angle\_servo\_1@{set\_angle\_servo\_1}!servos.c@{servos.c}}
+\doxysubsubsection{\texorpdfstring{set\_angle\_servo\_1()}{set\_angle\_servo\_1()}}
+{\footnotesize\ttfamily void set\+\_\+angle\+\_\+servo\+\_\+1 (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{angle }\end{DoxyParamCaption})}
+
+
+
+Moves servo 1 to the specified angle. 
+
+The Micro Servo 9g requires a PWM signal at 50 Hz as an input to control the angle of the motor. Each duty cycle value between 2.\+5\% and 12.\+5\% maps to an angle between 0° and 180° respectively. A simple linear function was used to map this values, its slope and intercept are defined as SLOPE\+\_\+\+SERVO and INTERCEPT\+\_\+\+SERVO 
+\begin{DoxyParams}{Parameters}
+{\em angle} & The angle to turn to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+\mbox{\Hypertarget{servos_8c_aaa184b079a8787c15f963e528a6d4155}\label{servos_8c_aaa184b079a8787c15f963e528a6d4155}} 
+\index{servos.c@{servos.c}!set\_angle\_servo\_2@{set\_angle\_servo\_2}}
+\index{set\_angle\_servo\_2@{set\_angle\_servo\_2}!servos.c@{servos.c}}
+\doxysubsubsection{\texorpdfstring{set\_angle\_servo\_2()}{set\_angle\_servo\_2()}}
+{\footnotesize\ttfamily void set\+\_\+angle\+\_\+servo\+\_\+2 (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{angle }\end{DoxyParamCaption})}
+
+
+
+Moves servo 2 to the specified angle. 
+
+The Micro Servo 9g requires a PWM signal at 50 Hz as an input to control the angle of the motor. Each duty cycle value between 2.\+5\% and 12.\+5\% maps to an angle between 0° and 180° respectively. A simple linear function was used to map this values, its slope and intercept are defined as SLOPE\+\_\+\+SERVO and INTERCEPT\+\_\+\+SERVO 
+\begin{DoxyParams}{Parameters}
+{\em angle} & The angle to turn to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}

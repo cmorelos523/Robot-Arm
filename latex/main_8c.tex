@@ -1,0 +1,342 @@
+\hypertarget{main_8c}{}\doxysection{Final\+\_\+\+Lab\+\_\+\+Motor\+\_\+\+Control/\+Final\+\_\+\+Lab\+\_\+\+Motor\+\_\+\+Control/main/main.c File Reference}
+\label{main_8c}\index{Final\_Lab\_Motor\_Control/Final\_Lab\_Motor\_Control/main/main.c@{Final\_Lab\_Motor\_Control/Final\_Lab\_Motor\_Control/main/main.c}}
+
+
+This file controls the execution of the robotic arm.  
+
+
+{\ttfamily \#include \char`\"{}main.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}servos.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}matrix.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}sdkconfig.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}freertos/event\+\_\+groups.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}driver/gptimer.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}esp\+\_\+system.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}esp\+\_\+log.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}nvs\+\_\+flash.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}esp\+\_\+bt.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}esp\+\_\+gap\+\_\+ble\+\_\+api.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}esp\+\_\+gatts\+\_\+api.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}esp\+\_\+bt\+\_\+defs.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}esp\+\_\+bt\+\_\+main.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}esp\+\_\+bt\+\_\+device.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}esp\+\_\+gatt\+\_\+common\+\_\+api.\+h\char`\"{}}\newline
+Include dependency graph for main.\+c\+:
+% FIG 0
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structgatts__profile__inst}{gatts\+\_\+profile\+\_\+inst}}
+\item 
+struct \mbox{\hyperlink{structprepare__type__env__t}{prepare\+\_\+type\+\_\+env\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{main_8c_a7851c5a0cc928e6ff7770d9fbda6bba2}{GATTS\+\_\+\+TAG}}~\char`\"{}GATTS\+\_\+\+DEMO\char`\"{}
+\item 
+\#define \mbox{\hyperlink{main_8c_a2bc93e3db5fa1d2efe6d23c4c357aa9f}{GATTS\+\_\+\+SERVICE\+\_\+\+UUID\+\_\+\+TEST\+\_\+A}}~0x00\+FF
+\item 
+\#define \mbox{\hyperlink{main_8c_a557dd25f16aa71b46c79f24a8d4d97e5}{GATTS\+\_\+\+CHAR\+\_\+\+UUID\+\_\+\+TEST\+\_\+A}}~0x\+FF01
+\item 
+\#define \mbox{\hyperlink{main_8c_ad8df8660945808efc35a6e5c2f509be7}{GATTS\+\_\+\+DESCR\+\_\+\+UUID\+\_\+\+TEST\+\_\+A}}~0x3333
+\item 
+\#define \mbox{\hyperlink{main_8c_a02292ae673e16cbb41795b4117f41ea0}{GATTS\+\_\+\+NUM\+\_\+\+HANDLE\+\_\+\+TEST\+\_\+A}}~4
+\item 
+\#define \mbox{\hyperlink{main_8c_adf407e7f8a1575af451dd51360c80288}{GATTS\+\_\+\+SERVICE\+\_\+\+UUID\+\_\+\+TEST\+\_\+B}}~0x00\+EE
+\item 
+\#define \mbox{\hyperlink{main_8c_ada1a71fba4b94955763bc3ec930737bc}{GATTS\+\_\+\+CHAR\+\_\+\+UUID\+\_\+\+TEST\+\_\+B}}~0x\+EE01
+\item 
+\#define \mbox{\hyperlink{main_8c_a0828c6eac2ea4a1d1c3817f94680d84e}{GATTS\+\_\+\+DESCR\+\_\+\+UUID\+\_\+\+TEST\+\_\+B}}~0x2222
+\item 
+\#define \mbox{\hyperlink{main_8c_a58acb9f781fa089d3aee6e72397b6f43}{GATTS\+\_\+\+NUM\+\_\+\+HANDLE\+\_\+\+TEST\+\_\+B}}~4
+\item 
+\#define \mbox{\hyperlink{main_8c_a7f16574c46385cef2963c3f4badbb3c7}{CONFIG\+\_\+\+EXAMPLE\+\_\+\+CHAR\+\_\+\+READ\+\_\+\+DATA\+\_\+\+LEN}}~4
+\item 
+\#define \mbox{\hyperlink{main_8c_a5b9a50db3d4856589c917150a2f45eaf}{TEST\+\_\+\+MANUFACTURER\+\_\+\+DATA\+\_\+\+LEN}}~17
+\item 
+\#define \mbox{\hyperlink{main_8c_af754f155149c2758e19af40c7b639f05}{GATTS\+\_\+\+DEMO\+\_\+\+CHAR\+\_\+\+VAL\+\_\+\+LEN\+\_\+\+MAX}}~0x40
+\item 
+\#define \mbox{\hyperlink{main_8c_a7a3ec99addf88f1f771fd5303c51f75c}{PREPARE\+\_\+\+BUF\+\_\+\+MAX\+\_\+\+SIZE}}~1024
+\item 
+\#define \mbox{\hyperlink{main_8c_a5cadbbd03e72d3f26c9165115628b015}{adv\+\_\+config\+\_\+flag}}~(1 $<$$<$ 0)
+\item 
+\#define \mbox{\hyperlink{main_8c_ae04e4b2d6dea5c5274264345c2268fd2}{scan\+\_\+rsp\+\_\+config\+\_\+flag}}~(1 $<$$<$ 1)
+\item 
+\#define \mbox{\hyperlink{main_8c_aab6353cb3662bdc672ae8ab90df529ce}{PROFILE\+\_\+\+NUM}}~2
+\item 
+\#define \mbox{\hyperlink{main_8c_a02ae63c368bf2fcbb839b01d86d9b103}{PROFILE\+\_\+\+A\+\_\+\+APP\+\_\+\+ID}}~0
+\item 
+\#define \mbox{\hyperlink{main_8c_a4f8408aebe2072f0b2ba9e961e050346}{PROFILE\+\_\+\+B\+\_\+\+APP\+\_\+\+ID}}~1
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{main_8c_a366d02510ddb4fd42f4800edfabbfb3d}{parse\+\_\+ble\+\_\+payload}} (uint8\+\_\+t $\ast$data, uint16\+\_\+t len)
+\begin{DoxyCompactList}\small\item\em This function parses an ASCII 2D matrix received via BLE and transforms to a regular 2D matrix. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_ace91c595b2b150a2105fc7fcbb4ec219}{example\+\_\+write\+\_\+event\+\_\+env}} (esp\+\_\+gatt\+\_\+if\+\_\+t gatts\+\_\+if, \mbox{\hyperlink{structprepare__type__env__t}{prepare\+\_\+type\+\_\+env\+\_\+t}} $\ast$prepare\+\_\+write\+\_\+env, esp\+\_\+ble\+\_\+gatts\+\_\+cb\+\_\+param\+\_\+t $\ast$param)
+\begin{DoxyCompactList}\small\item\em Allocates memory and prepares the environment for a long GATT write operation. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a31f6cef4c1b2631dee831e788cff230d}{example\+\_\+exec\+\_\+write\+\_\+event\+\_\+env}} (\mbox{\hyperlink{structprepare__type__env__t}{prepare\+\_\+type\+\_\+env\+\_\+t}} $\ast$prepare\+\_\+write\+\_\+env, esp\+\_\+ble\+\_\+gatts\+\_\+cb\+\_\+param\+\_\+t $\ast$param)
+\begin{DoxyCompactList}\small\item\em Executes a prepared long GATT write operation and frees allocated memory. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a630544a7f0a2cc40d8a7fefab7e2fe70}{app\+\_\+main}} (void)
+\begin{DoxyCompactList}\small\item\em Application entry point. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structcoord__info}{coord\+\_\+info}} \mbox{\hyperlink{main_8c_ac603b7c4e318bc9e593731fc031292b5}{matrix}} \mbox{[}8\mbox{]}\mbox{[}8\mbox{]} = \{0\}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{main_8c_abd04910c19badf60337cea3b76ce4926}{current\+\_\+s1\+\_\+angle}} = \mbox{\hyperlink{servos_8h_a87ce239612e75361a83f2154466fe1a0}{TOP\+\_\+\+LEFT\+\_\+\+S1}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{main_8c_ab6078be852c6c94bcf5538edb06413ef}{current\+\_\+s2\+\_\+angle}} = \mbox{\hyperlink{servos_8h_a32c609643e6e7aa48682eba9fa2eb752}{TOP\+\_\+\+LEFT\+\_\+\+S2}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{main_8c_a7118d739707e184f7f2d7457856217f9}{target\+\_\+matrix}} \mbox{[}8\mbox{]}\mbox{[}8\mbox{]} = \{0\}
+\item 
+volatile bool \mbox{\hyperlink{main_8c_a23dd4d176d800cda517eb0857a270c93}{new\+\_\+matrix\+\_\+ready}} = false
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This file controls the execution of the robotic arm. 
+
+\begin{DoxyAuthor}{Author}
+Carlos Morelos 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+05/30/2026 
+\end{DoxyDate}
+\begin{DoxyVersion}{Version}
+1.\+0 
+\end{DoxyVersion}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{main_8c_a5cadbbd03e72d3f26c9165115628b015}\label{main_8c_a5cadbbd03e72d3f26c9165115628b015}} 
+\index{main.c@{main.c}!adv\_config\_flag@{adv\_config\_flag}}
+\index{adv\_config\_flag@{adv\_config\_flag}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{adv\_config\_flag}{adv\_config\_flag}}
+{\footnotesize\ttfamily \#define adv\+\_\+config\+\_\+flag~(1 $<$$<$ 0)}
+
+\mbox{\Hypertarget{main_8c_a7f16574c46385cef2963c3f4badbb3c7}\label{main_8c_a7f16574c46385cef2963c3f4badbb3c7}} 
+\index{main.c@{main.c}!CONFIG\_EXAMPLE\_CHAR\_READ\_DATA\_LEN@{CONFIG\_EXAMPLE\_CHAR\_READ\_DATA\_LEN}}
+\index{CONFIG\_EXAMPLE\_CHAR\_READ\_DATA\_LEN@{CONFIG\_EXAMPLE\_CHAR\_READ\_DATA\_LEN}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{CONFIG\_EXAMPLE\_CHAR\_READ\_DATA\_LEN}{CONFIG\_EXAMPLE\_CHAR\_READ\_DATA\_LEN}}
+{\footnotesize\ttfamily \#define CONFIG\+\_\+\+EXAMPLE\+\_\+\+CHAR\+\_\+\+READ\+\_\+\+DATA\+\_\+\+LEN~4}
+
+\mbox{\Hypertarget{main_8c_a557dd25f16aa71b46c79f24a8d4d97e5}\label{main_8c_a557dd25f16aa71b46c79f24a8d4d97e5}} 
+\index{main.c@{main.c}!GATTS\_CHAR\_UUID\_TEST\_A@{GATTS\_CHAR\_UUID\_TEST\_A}}
+\index{GATTS\_CHAR\_UUID\_TEST\_A@{GATTS\_CHAR\_UUID\_TEST\_A}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{GATTS\_CHAR\_UUID\_TEST\_A}{GATTS\_CHAR\_UUID\_TEST\_A}}
+{\footnotesize\ttfamily \#define GATTS\+\_\+\+CHAR\+\_\+\+UUID\+\_\+\+TEST\+\_\+A~0x\+FF01}
+
+\mbox{\Hypertarget{main_8c_ada1a71fba4b94955763bc3ec930737bc}\label{main_8c_ada1a71fba4b94955763bc3ec930737bc}} 
+\index{main.c@{main.c}!GATTS\_CHAR\_UUID\_TEST\_B@{GATTS\_CHAR\_UUID\_TEST\_B}}
+\index{GATTS\_CHAR\_UUID\_TEST\_B@{GATTS\_CHAR\_UUID\_TEST\_B}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{GATTS\_CHAR\_UUID\_TEST\_B}{GATTS\_CHAR\_UUID\_TEST\_B}}
+{\footnotesize\ttfamily \#define GATTS\+\_\+\+CHAR\+\_\+\+UUID\+\_\+\+TEST\+\_\+B~0x\+EE01}
+
+\mbox{\Hypertarget{main_8c_af754f155149c2758e19af40c7b639f05}\label{main_8c_af754f155149c2758e19af40c7b639f05}} 
+\index{main.c@{main.c}!GATTS\_DEMO\_CHAR\_VAL\_LEN\_MAX@{GATTS\_DEMO\_CHAR\_VAL\_LEN\_MAX}}
+\index{GATTS\_DEMO\_CHAR\_VAL\_LEN\_MAX@{GATTS\_DEMO\_CHAR\_VAL\_LEN\_MAX}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{GATTS\_DEMO\_CHAR\_VAL\_LEN\_MAX}{GATTS\_DEMO\_CHAR\_VAL\_LEN\_MAX}}
+{\footnotesize\ttfamily \#define GATTS\+\_\+\+DEMO\+\_\+\+CHAR\+\_\+\+VAL\+\_\+\+LEN\+\_\+\+MAX~0x40}
+
+\mbox{\Hypertarget{main_8c_ad8df8660945808efc35a6e5c2f509be7}\label{main_8c_ad8df8660945808efc35a6e5c2f509be7}} 
+\index{main.c@{main.c}!GATTS\_DESCR\_UUID\_TEST\_A@{GATTS\_DESCR\_UUID\_TEST\_A}}
+\index{GATTS\_DESCR\_UUID\_TEST\_A@{GATTS\_DESCR\_UUID\_TEST\_A}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{GATTS\_DESCR\_UUID\_TEST\_A}{GATTS\_DESCR\_UUID\_TEST\_A}}
+{\footnotesize\ttfamily \#define GATTS\+\_\+\+DESCR\+\_\+\+UUID\+\_\+\+TEST\+\_\+A~0x3333}
+
+\mbox{\Hypertarget{main_8c_a0828c6eac2ea4a1d1c3817f94680d84e}\label{main_8c_a0828c6eac2ea4a1d1c3817f94680d84e}} 
+\index{main.c@{main.c}!GATTS\_DESCR\_UUID\_TEST\_B@{GATTS\_DESCR\_UUID\_TEST\_B}}
+\index{GATTS\_DESCR\_UUID\_TEST\_B@{GATTS\_DESCR\_UUID\_TEST\_B}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{GATTS\_DESCR\_UUID\_TEST\_B}{GATTS\_DESCR\_UUID\_TEST\_B}}
+{\footnotesize\ttfamily \#define GATTS\+\_\+\+DESCR\+\_\+\+UUID\+\_\+\+TEST\+\_\+B~0x2222}
+
+\mbox{\Hypertarget{main_8c_a02292ae673e16cbb41795b4117f41ea0}\label{main_8c_a02292ae673e16cbb41795b4117f41ea0}} 
+\index{main.c@{main.c}!GATTS\_NUM\_HANDLE\_TEST\_A@{GATTS\_NUM\_HANDLE\_TEST\_A}}
+\index{GATTS\_NUM\_HANDLE\_TEST\_A@{GATTS\_NUM\_HANDLE\_TEST\_A}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{GATTS\_NUM\_HANDLE\_TEST\_A}{GATTS\_NUM\_HANDLE\_TEST\_A}}
+{\footnotesize\ttfamily \#define GATTS\+\_\+\+NUM\+\_\+\+HANDLE\+\_\+\+TEST\+\_\+A~4}
+
+\mbox{\Hypertarget{main_8c_a58acb9f781fa089d3aee6e72397b6f43}\label{main_8c_a58acb9f781fa089d3aee6e72397b6f43}} 
+\index{main.c@{main.c}!GATTS\_NUM\_HANDLE\_TEST\_B@{GATTS\_NUM\_HANDLE\_TEST\_B}}
+\index{GATTS\_NUM\_HANDLE\_TEST\_B@{GATTS\_NUM\_HANDLE\_TEST\_B}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{GATTS\_NUM\_HANDLE\_TEST\_B}{GATTS\_NUM\_HANDLE\_TEST\_B}}
+{\footnotesize\ttfamily \#define GATTS\+\_\+\+NUM\+\_\+\+HANDLE\+\_\+\+TEST\+\_\+B~4}
+
+\mbox{\Hypertarget{main_8c_a2bc93e3db5fa1d2efe6d23c4c357aa9f}\label{main_8c_a2bc93e3db5fa1d2efe6d23c4c357aa9f}} 
+\index{main.c@{main.c}!GATTS\_SERVICE\_UUID\_TEST\_A@{GATTS\_SERVICE\_UUID\_TEST\_A}}
+\index{GATTS\_SERVICE\_UUID\_TEST\_A@{GATTS\_SERVICE\_UUID\_TEST\_A}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{GATTS\_SERVICE\_UUID\_TEST\_A}{GATTS\_SERVICE\_UUID\_TEST\_A}}
+{\footnotesize\ttfamily \#define GATTS\+\_\+\+SERVICE\+\_\+\+UUID\+\_\+\+TEST\+\_\+A~0x00\+FF}
+
+\mbox{\Hypertarget{main_8c_adf407e7f8a1575af451dd51360c80288}\label{main_8c_adf407e7f8a1575af451dd51360c80288}} 
+\index{main.c@{main.c}!GATTS\_SERVICE\_UUID\_TEST\_B@{GATTS\_SERVICE\_UUID\_TEST\_B}}
+\index{GATTS\_SERVICE\_UUID\_TEST\_B@{GATTS\_SERVICE\_UUID\_TEST\_B}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{GATTS\_SERVICE\_UUID\_TEST\_B}{GATTS\_SERVICE\_UUID\_TEST\_B}}
+{\footnotesize\ttfamily \#define GATTS\+\_\+\+SERVICE\+\_\+\+UUID\+\_\+\+TEST\+\_\+B~0x00\+EE}
+
+\mbox{\Hypertarget{main_8c_a7851c5a0cc928e6ff7770d9fbda6bba2}\label{main_8c_a7851c5a0cc928e6ff7770d9fbda6bba2}} 
+\index{main.c@{main.c}!GATTS\_TAG@{GATTS\_TAG}}
+\index{GATTS\_TAG@{GATTS\_TAG}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{GATTS\_TAG}{GATTS\_TAG}}
+{\footnotesize\ttfamily \#define GATTS\+\_\+\+TAG~\char`\"{}GATTS\+\_\+\+DEMO\char`\"{}}
+
+\mbox{\Hypertarget{main_8c_a7a3ec99addf88f1f771fd5303c51f75c}\label{main_8c_a7a3ec99addf88f1f771fd5303c51f75c}} 
+\index{main.c@{main.c}!PREPARE\_BUF\_MAX\_SIZE@{PREPARE\_BUF\_MAX\_SIZE}}
+\index{PREPARE\_BUF\_MAX\_SIZE@{PREPARE\_BUF\_MAX\_SIZE}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{PREPARE\_BUF\_MAX\_SIZE}{PREPARE\_BUF\_MAX\_SIZE}}
+{\footnotesize\ttfamily \#define PREPARE\+\_\+\+BUF\+\_\+\+MAX\+\_\+\+SIZE~1024}
+
+\mbox{\Hypertarget{main_8c_a02ae63c368bf2fcbb839b01d86d9b103}\label{main_8c_a02ae63c368bf2fcbb839b01d86d9b103}} 
+\index{main.c@{main.c}!PROFILE\_A\_APP\_ID@{PROFILE\_A\_APP\_ID}}
+\index{PROFILE\_A\_APP\_ID@{PROFILE\_A\_APP\_ID}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{PROFILE\_A\_APP\_ID}{PROFILE\_A\_APP\_ID}}
+{\footnotesize\ttfamily \#define PROFILE\+\_\+\+A\+\_\+\+APP\+\_\+\+ID~0}
+
+\mbox{\Hypertarget{main_8c_a4f8408aebe2072f0b2ba9e961e050346}\label{main_8c_a4f8408aebe2072f0b2ba9e961e050346}} 
+\index{main.c@{main.c}!PROFILE\_B\_APP\_ID@{PROFILE\_B\_APP\_ID}}
+\index{PROFILE\_B\_APP\_ID@{PROFILE\_B\_APP\_ID}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{PROFILE\_B\_APP\_ID}{PROFILE\_B\_APP\_ID}}
+{\footnotesize\ttfamily \#define PROFILE\+\_\+\+B\+\_\+\+APP\+\_\+\+ID~1}
+
+\mbox{\Hypertarget{main_8c_aab6353cb3662bdc672ae8ab90df529ce}\label{main_8c_aab6353cb3662bdc672ae8ab90df529ce}} 
+\index{main.c@{main.c}!PROFILE\_NUM@{PROFILE\_NUM}}
+\index{PROFILE\_NUM@{PROFILE\_NUM}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{PROFILE\_NUM}{PROFILE\_NUM}}
+{\footnotesize\ttfamily \#define PROFILE\+\_\+\+NUM~2}
+
+\mbox{\Hypertarget{main_8c_ae04e4b2d6dea5c5274264345c2268fd2}\label{main_8c_ae04e4b2d6dea5c5274264345c2268fd2}} 
+\index{main.c@{main.c}!scan\_rsp\_config\_flag@{scan\_rsp\_config\_flag}}
+\index{scan\_rsp\_config\_flag@{scan\_rsp\_config\_flag}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{scan\_rsp\_config\_flag}{scan\_rsp\_config\_flag}}
+{\footnotesize\ttfamily \#define scan\+\_\+rsp\+\_\+config\+\_\+flag~(1 $<$$<$ 1)}
+
+\mbox{\Hypertarget{main_8c_a5b9a50db3d4856589c917150a2f45eaf}\label{main_8c_a5b9a50db3d4856589c917150a2f45eaf}} 
+\index{main.c@{main.c}!TEST\_MANUFACTURER\_DATA\_LEN@{TEST\_MANUFACTURER\_DATA\_LEN}}
+\index{TEST\_MANUFACTURER\_DATA\_LEN@{TEST\_MANUFACTURER\_DATA\_LEN}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{TEST\_MANUFACTURER\_DATA\_LEN}{TEST\_MANUFACTURER\_DATA\_LEN}}
+{\footnotesize\ttfamily \#define TEST\+\_\+\+MANUFACTURER\+\_\+\+DATA\+\_\+\+LEN~17}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{main_8c_a630544a7f0a2cc40d8a7fefab7e2fe70}\label{main_8c_a630544a7f0a2cc40d8a7fefab7e2fe70}} 
+\index{main.c@{main.c}!app\_main@{app\_main}}
+\index{app\_main@{app\_main}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{app\_main()}{app\_main()}}
+{\footnotesize\ttfamily void app\+\_\+main (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Application entry point. 
+
+Main \char`\"{}task\char`\"{}. Sets up required peripherals and initializes the system to a good state. 
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+\mbox{\Hypertarget{main_8c_a31f6cef4c1b2631dee831e788cff230d}\label{main_8c_a31f6cef4c1b2631dee831e788cff230d}} 
+\index{main.c@{main.c}!example\_exec\_write\_event\_env@{example\_exec\_write\_event\_env}}
+\index{example\_exec\_write\_event\_env@{example\_exec\_write\_event\_env}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{example\_exec\_write\_event\_env()}{example\_exec\_write\_event\_env()}}
+{\footnotesize\ttfamily void example\+\_\+exec\+\_\+write\+\_\+event\+\_\+env (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structprepare__type__env__t}{prepare\+\_\+type\+\_\+env\+\_\+t}} $\ast$}]{prepare\+\_\+write\+\_\+env,  }\item[{esp\+\_\+ble\+\_\+gatts\+\_\+cb\+\_\+param\+\_\+t $\ast$}]{param }\end{DoxyParamCaption})}
+
+
+
+Executes a prepared long GATT write operation and frees allocated memory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em prepare\+\_\+write\+\_\+env} & Pointer to the prepare write environment struct. \\
+\hline
+{\em param} & Pointer to the GATT server callback parameters. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{main_8c_ace91c595b2b150a2105fc7fcbb4ec219}\label{main_8c_ace91c595b2b150a2105fc7fcbb4ec219}} 
+\index{main.c@{main.c}!example\_write\_event\_env@{example\_write\_event\_env}}
+\index{example\_write\_event\_env@{example\_write\_event\_env}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{example\_write\_event\_env()}{example\_write\_event\_env()}}
+{\footnotesize\ttfamily void example\+\_\+write\+\_\+event\+\_\+env (\begin{DoxyParamCaption}\item[{esp\+\_\+gatt\+\_\+if\+\_\+t}]{gatts\+\_\+if,  }\item[{\mbox{\hyperlink{structprepare__type__env__t}{prepare\+\_\+type\+\_\+env\+\_\+t}} $\ast$}]{prepare\+\_\+write\+\_\+env,  }\item[{esp\+\_\+ble\+\_\+gatts\+\_\+cb\+\_\+param\+\_\+t $\ast$}]{param }\end{DoxyParamCaption})}
+
+
+
+Allocates memory and prepares the environment for a long GATT write operation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em gatts\+\_\+if} & GATT server access interface. \\
+\hline
+{\em prepare\+\_\+write\+\_\+env} & Pointer to the prepare write environment struct. \\
+\hline
+{\em param} & Pointer to the GATT server callback parameters. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{main_8c_a366d02510ddb4fd42f4800edfabbfb3d}\label{main_8c_a366d02510ddb4fd42f4800edfabbfb3d}} 
+\index{main.c@{main.c}!parse\_ble\_payload@{parse\_ble\_payload}}
+\index{parse\_ble\_payload@{parse\_ble\_payload}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{parse\_ble\_payload()}{parse\_ble\_payload()}}
+{\footnotesize\ttfamily void parse\+\_\+ble\+\_\+payload (\begin{DoxyParamCaption}\item[{uint8\+\_\+t $\ast$}]{data,  }\item[{uint16\+\_\+t}]{len }\end{DoxyParamCaption})}
+
+
+
+This function parses an ASCII 2D matrix received via BLE and transforms to a regular 2D matrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & ASCII representation of the matrix \\
+\hline
+{\em len} & Length of the array \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{main_8c_abd04910c19badf60337cea3b76ce4926}\label{main_8c_abd04910c19badf60337cea3b76ce4926}} 
+\index{main.c@{main.c}!current\_s1\_angle@{current\_s1\_angle}}
+\index{current\_s1\_angle@{current\_s1\_angle}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{current\_s1\_angle}{current\_s1\_angle}}
+{\footnotesize\ttfamily uint8\+\_\+t current\+\_\+s1\+\_\+angle = \mbox{\hyperlink{servos_8h_a87ce239612e75361a83f2154466fe1a0}{TOP\+\_\+\+LEFT\+\_\+\+S1}}}
+
+\mbox{\Hypertarget{main_8c_ab6078be852c6c94bcf5538edb06413ef}\label{main_8c_ab6078be852c6c94bcf5538edb06413ef}} 
+\index{main.c@{main.c}!current\_s2\_angle@{current\_s2\_angle}}
+\index{current\_s2\_angle@{current\_s2\_angle}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{current\_s2\_angle}{current\_s2\_angle}}
+{\footnotesize\ttfamily uint8\+\_\+t current\+\_\+s2\+\_\+angle = \mbox{\hyperlink{servos_8h_a32c609643e6e7aa48682eba9fa2eb752}{TOP\+\_\+\+LEFT\+\_\+\+S2}}}
+
+\mbox{\Hypertarget{main_8c_ac603b7c4e318bc9e593731fc031292b5}\label{main_8c_ac603b7c4e318bc9e593731fc031292b5}} 
+\index{main.c@{main.c}!matrix@{matrix}}
+\index{matrix@{matrix}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{matrix}{matrix}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structcoord__info}{coord\+\_\+info}} matrix\mbox{[}8\mbox{]}\mbox{[}8\mbox{]} = \{0\}}
+
+\mbox{\Hypertarget{main_8c_a23dd4d176d800cda517eb0857a270c93}\label{main_8c_a23dd4d176d800cda517eb0857a270c93}} 
+\index{main.c@{main.c}!new\_matrix\_ready@{new\_matrix\_ready}}
+\index{new\_matrix\_ready@{new\_matrix\_ready}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{new\_matrix\_ready}{new\_matrix\_ready}}
+{\footnotesize\ttfamily volatile bool new\+\_\+matrix\+\_\+ready = false}
+
+\mbox{\Hypertarget{main_8c_a7118d739707e184f7f2d7457856217f9}\label{main_8c_a7118d739707e184f7f2d7457856217f9}} 
+\index{main.c@{main.c}!target\_matrix@{target\_matrix}}
+\index{target\_matrix@{target\_matrix}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{target\_matrix}{target\_matrix}}
+{\footnotesize\ttfamily uint8\+\_\+t target\+\_\+matrix\mbox{[}8\mbox{]}\mbox{[}8\mbox{]} = \{0\}}
+

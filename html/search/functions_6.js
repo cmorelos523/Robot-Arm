@@ -1,0 +1,6 @@
+var searchData=
+[
+  ['main_1359',['main',['../bootloader_2CMakeFiles_24_80_83_2CompilerIdC_2CMakeCCompilerId_8c.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main(int argc, char *argv[]):&#160;CMakeCCompilerId.c'],['../bootloader_2CMakeFiles_24_80_83_2CompilerIdCXX_2CMakeCXXCompilerId_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main(int argc, char *argv[]):&#160;CMakeCXXCompilerId.cpp'],['../CMakeFiles_24_80_83_2CompilerIdC_2CMakeCCompilerId_8c.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main(int argc, char *argv[]):&#160;CMakeCCompilerId.c'],['../CMakeFiles_24_80_83_2CompilerIdCXX_2CMakeCXXCompilerId_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main(int argc, char *argv[]):&#160;CMakeCXXCompilerId.cpp']]],
+  ['matrix_5fset_5fup_1360',['matrix_set_up',['../matrix_8c.html#a9c462f07435bd75c7f10d834093ed6ef',1,'matrix_set_up(void):&#160;matrix.c'],['../matrix_8h.html#a9c462f07435bd75c7f10d834093ed6ef',1,'matrix_set_up(void):&#160;matrix.c']]],
+  ['move_5farm_5fto_5ftarget_1361',['move_arm_to_target',['../servos_8c.html#a08c3bd29d892d8d5ec75d81a93612c1c',1,'move_arm_to_target(uint8_t target_s1, uint8_t target_s2):&#160;servos.c'],['../servos_8h.html#a08c3bd29d892d8d5ec75d81a93612c1c',1,'move_arm_to_target(uint8_t target_s1, uint8_t target_s2):&#160;servos.c']]]
+];

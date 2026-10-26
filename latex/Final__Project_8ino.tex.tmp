@@ -1,0 +1,298 @@
+\hypertarget{Final__Project_8ino}{}\doxysection{Final\+\_\+\+Project.\+ino File Reference}
+\label{Final__Project_8ino}\index{Final\_Project.ino@{Final\_Project.ino}}
+
+
+ESP32 controller node for capturing joystick input and transmitting 8x8 matrix frames via BLE.  
+
+
+{\ttfamily \#include $<$BLEDevice.\+h$>$}\newline
+{\ttfamily \#include $<$BLEUtils.\+h$>$}\newline
+{\ttfamily \#include $<$BLEServer.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}freertos/\+Free\+RTOS.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}freertos/task.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}freertos/queue.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$MD\+\_\+\+MAX72xx.\+h$>$}\newline
+{\ttfamily \#include $<$SPI.\+h$>$}\newline
+Include dependency graph for Final\+\_\+\+Project.\+ino\+:
+% FIG 0
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structGridFrame}{Grid\+Frame}}
+\begin{DoxyCompactList}\small\item\em Holds an 8-\/byte buffer representing the entire 8x8 canvas state. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classMyAdvertisedDeviceCallbacks}{My\+Advertised\+Device\+Callbacks}}
+\begin{DoxyCompactList}\small\item\em Callback class for handling BLE scan results. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{Final__Project_8ino_ad77529dbdf84161b7b5f3874c707b9b9}{JOYSTICK\+\_\+X}}~5
+\item 
+\#define \mbox{\hyperlink{Final__Project_8ino_a6fac688dbc7bf507e91570ced2d90119}{JOYSTICK\+\_\+Y}}~6
+\item 
+\#define \mbox{\hyperlink{Final__Project_8ino_af4dd706d7062c2d24d35a03c735d4618}{JOYSTICK\+\_\+\+BUTTON}}~7
+\item 
+\#define \mbox{\hyperlink{Final__Project_8ino_a1b04ec1cde4d3032f558ed8ad05930a4}{FREQ}}~128
+\item 
+\#define \mbox{\hyperlink{Final__Project_8ino_a5fcd914889df46acf623f7d9a81654d7}{PERIOD\+\_\+\+MS}}~(1000 / \mbox{\hyperlink{Final__Project_8ino_a1b04ec1cde4d3032f558ed8ad05930a4}{FREQ}})
+\item 
+\#define \mbox{\hyperlink{Final__Project_8ino_a2bd32349fcbeb6ee86434a65226cba1a}{MATRIX\+\_\+\+SIZE}}~8
+\item 
+\#define \mbox{\hyperlink{Final__Project_8ino_a445125ee8c34695376c85f10b38844d6}{SERVICE\+\_\+\+UUID}}~\char`\"{}4fafc201-\/1fb5-\/459e-\/8fcc-\/c5c9c331914b\char`\"{}
+\item 
+\#define \mbox{\hyperlink{Final__Project_8ino_a94aefdd5f54049079364e832dc15b336}{CHARACTERISTIC\+\_\+\+UUID}}~\char`\"{}beb5483e-\/36e1-\/4688-\/b7f5-\/ea07361b26a8\char`\"{}
+\item 
+\#define \mbox{\hyperlink{Final__Project_8ino_aabcc6a42d88cc14934e723738e2ccea5}{TARGET\+\_\+\+DEVICE\+\_\+\+NAME}}~\char`\"{}CARLOS\+\_\+\+ESP32\char`\"{}
+\item 
+\#define \mbox{\hyperlink{Final__Project_8ino_ac61ff1ee3f7c6820e4b73a2d0ee30379}{TARGET\+\_\+\+SERVICE\+\_\+\+UUID}}~(uint16\+\_\+t)0x00\+FF
+\item 
+\#define \mbox{\hyperlink{Final__Project_8ino_a57e90a2c385642983106d7d22835f1d6}{TARGET\+\_\+\+CHARACTERISTIC\+\_\+\+UUID}}~(uint16\+\_\+t)0x\+FF01
+\item 
+\#define \mbox{\hyperlink{Final__Project_8ino_a5e098f52094d98577aa4dc759f0e4414}{MATRIX\+\_\+\+DIN}}~12
+\item 
+\#define \mbox{\hyperlink{Final__Project_8ino_acb8839fd1b25347c6fb30bf7e16a993f}{MATRIX\+\_\+\+CS}}~11
+\item 
+\#define \mbox{\hyperlink{Final__Project_8ino_a12110f2bb46e92516a91a26f6afe2ee6}{MATRIX\+\_\+\+CLK}}~10
+\item 
+\#define \mbox{\hyperlink{Final__Project_8ino_a04988e7d812ffad244fd37a708b92536}{HARDWARE\+\_\+\+TYPE}}~MD\+\_\+\+MAX72\+XX\+::\+FC16\+\_\+\+HW
+\item 
+\#define \mbox{\hyperlink{Final__Project_8ino_a4e132cfaa78353e3af1474a86b2dd535}{MAX\+\_\+\+DEVICES}}~1
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{Final__Project_8ino_a946eced3b45c8504a9bf53d2fb977a2d}{init\+Hardware}} ()
+\begin{DoxyCompactList}\small\item\em Initializes GPIO pins and the MAX7219 LED matrix hardware. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Final__Project_8ino_ade14abe260a22d89ee9ed61dabb43f81}{Joystick\+Check\+\_\+\+Task}} (void $\ast$pv\+Parameter)
+\begin{DoxyCompactList}\small\item\em Free\+RTOS task running on Core 1 to monitor joystick inputs and update the drawing matrix. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Final__Project_8ino_a5c178bf2831cb94712e23ff6920d2fcb}{Ble\+Transmit\+\_\+\+Task}} (void $\ast$pv\+Parameter)
+\begin{DoxyCompactList}\small\item\em Free\+RTOS task running on Core 0 acting as a BLE Client to transmit matrix data. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Final__Project_8ino_ac33f73562bdf747f079b1f0f99f0a758}{update\+Led\+Matrix}} (uint8\+\_\+t x, uint8\+\_\+t y, bool clear)
+\begin{DoxyCompactList}\small\item\em Helper function to update the local MAX7219 LED matrix display. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Final__Project_8ino_a4fc01d736fe50cf5b977f755b675f11d}{setup}} ()
+\begin{DoxyCompactList}\small\item\em Standard Arduino setup initialization. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Final__Project_8ino_afe461d27b9c48d5921c00d521181f12f}{loop}} ()
+\begin{DoxyCompactList}\small\item\em Standard Arduino infinite loop. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+MD\+\_\+\+MAX72\+XX \mbox{\hyperlink{Final__Project_8ino_af7ae5b574822961274559380c9306104}{mx}} = MD\+\_\+\+MAX72\+XX(\mbox{\hyperlink{Final__Project_8ino_a04988e7d812ffad244fd37a708b92536}{HARDWARE\+\_\+\+TYPE}}, \mbox{\hyperlink{Final__Project_8ino_a5e098f52094d98577aa4dc759f0e4414}{MATRIX\+\_\+\+DIN}}, \mbox{\hyperlink{Final__Project_8ino_a12110f2bb46e92516a91a26f6afe2ee6}{MATRIX\+\_\+\+CLK}}, \mbox{\hyperlink{Final__Project_8ino_acb8839fd1b25347c6fb30bf7e16a993f}{MATRIX\+\_\+\+CS}}, \mbox{\hyperlink{Final__Project_8ino_a4e132cfaa78353e3af1474a86b2dd535}{MAX\+\_\+\+DEVICES}})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+ESP32 controller node for capturing joystick input and transmitting 8x8 matrix frames via BLE. 
+
+\begin{DoxyAuthor}{Author}
+Alex Williams 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\+0 
+\end{DoxyVersion}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{Final__Project_8ino_a94aefdd5f54049079364e832dc15b336}\label{Final__Project_8ino_a94aefdd5f54049079364e832dc15b336}} 
+\index{Final\_Project.ino@{Final\_Project.ino}!CHARACTERISTIC\_UUID@{CHARACTERISTIC\_UUID}}
+\index{CHARACTERISTIC\_UUID@{CHARACTERISTIC\_UUID}!Final\_Project.ino@{Final\_Project.ino}}
+\doxysubsubsection{\texorpdfstring{CHARACTERISTIC\_UUID}{CHARACTERISTIC\_UUID}}
+{\footnotesize\ttfamily \#define CHARACTERISTIC\+\_\+\+UUID~\char`\"{}beb5483e-\/36e1-\/4688-\/b7f5-\/ea07361b26a8\char`\"{}}
+
+\mbox{\Hypertarget{Final__Project_8ino_a1b04ec1cde4d3032f558ed8ad05930a4}\label{Final__Project_8ino_a1b04ec1cde4d3032f558ed8ad05930a4}} 
+\index{Final\_Project.ino@{Final\_Project.ino}!FREQ@{FREQ}}
+\index{FREQ@{FREQ}!Final\_Project.ino@{Final\_Project.ino}}
+\doxysubsubsection{\texorpdfstring{FREQ}{FREQ}}
+{\footnotesize\ttfamily \#define FREQ~128}
+
+\mbox{\Hypertarget{Final__Project_8ino_a04988e7d812ffad244fd37a708b92536}\label{Final__Project_8ino_a04988e7d812ffad244fd37a708b92536}} 
+\index{Final\_Project.ino@{Final\_Project.ino}!HARDWARE\_TYPE@{HARDWARE\_TYPE}}
+\index{HARDWARE\_TYPE@{HARDWARE\_TYPE}!Final\_Project.ino@{Final\_Project.ino}}
+\doxysubsubsection{\texorpdfstring{HARDWARE\_TYPE}{HARDWARE\_TYPE}}
+{\footnotesize\ttfamily \#define HARDWARE\+\_\+\+TYPE~MD\+\_\+\+MAX72\+XX\+::\+FC16\+\_\+\+HW}
+
+\mbox{\Hypertarget{Final__Project_8ino_af4dd706d7062c2d24d35a03c735d4618}\label{Final__Project_8ino_af4dd706d7062c2d24d35a03c735d4618}} 
+\index{Final\_Project.ino@{Final\_Project.ino}!JOYSTICK\_BUTTON@{JOYSTICK\_BUTTON}}
+\index{JOYSTICK\_BUTTON@{JOYSTICK\_BUTTON}!Final\_Project.ino@{Final\_Project.ino}}
+\doxysubsubsection{\texorpdfstring{JOYSTICK\_BUTTON}{JOYSTICK\_BUTTON}}
+{\footnotesize\ttfamily \#define JOYSTICK\+\_\+\+BUTTON~7}
+
+\mbox{\Hypertarget{Final__Project_8ino_ad77529dbdf84161b7b5f3874c707b9b9}\label{Final__Project_8ino_ad77529dbdf84161b7b5f3874c707b9b9}} 
+\index{Final\_Project.ino@{Final\_Project.ino}!JOYSTICK\_X@{JOYSTICK\_X}}
+\index{JOYSTICK\_X@{JOYSTICK\_X}!Final\_Project.ino@{Final\_Project.ino}}
+\doxysubsubsection{\texorpdfstring{JOYSTICK\_X}{JOYSTICK\_X}}
+{\footnotesize\ttfamily \#define JOYSTICK\+\_\+X~5}
+
+\mbox{\Hypertarget{Final__Project_8ino_a6fac688dbc7bf507e91570ced2d90119}\label{Final__Project_8ino_a6fac688dbc7bf507e91570ced2d90119}} 
+\index{Final\_Project.ino@{Final\_Project.ino}!JOYSTICK\_Y@{JOYSTICK\_Y}}
+\index{JOYSTICK\_Y@{JOYSTICK\_Y}!Final\_Project.ino@{Final\_Project.ino}}
+\doxysubsubsection{\texorpdfstring{JOYSTICK\_Y}{JOYSTICK\_Y}}
+{\footnotesize\ttfamily \#define JOYSTICK\+\_\+Y~6}
+
+\mbox{\Hypertarget{Final__Project_8ino_a12110f2bb46e92516a91a26f6afe2ee6}\label{Final__Project_8ino_a12110f2bb46e92516a91a26f6afe2ee6}} 
+\index{Final\_Project.ino@{Final\_Project.ino}!MATRIX\_CLK@{MATRIX\_CLK}}
+\index{MATRIX\_CLK@{MATRIX\_CLK}!Final\_Project.ino@{Final\_Project.ino}}
+\doxysubsubsection{\texorpdfstring{MATRIX\_CLK}{MATRIX\_CLK}}
+{\footnotesize\ttfamily \#define MATRIX\+\_\+\+CLK~10}
+
+\mbox{\Hypertarget{Final__Project_8ino_acb8839fd1b25347c6fb30bf7e16a993f}\label{Final__Project_8ino_acb8839fd1b25347c6fb30bf7e16a993f}} 
+\index{Final\_Project.ino@{Final\_Project.ino}!MATRIX\_CS@{MATRIX\_CS}}
+\index{MATRIX\_CS@{MATRIX\_CS}!Final\_Project.ino@{Final\_Project.ino}}
+\doxysubsubsection{\texorpdfstring{MATRIX\_CS}{MATRIX\_CS}}
+{\footnotesize\ttfamily \#define MATRIX\+\_\+\+CS~11}
+
+\mbox{\Hypertarget{Final__Project_8ino_a5e098f52094d98577aa4dc759f0e4414}\label{Final__Project_8ino_a5e098f52094d98577aa4dc759f0e4414}} 
+\index{Final\_Project.ino@{Final\_Project.ino}!MATRIX\_DIN@{MATRIX\_DIN}}
+\index{MATRIX\_DIN@{MATRIX\_DIN}!Final\_Project.ino@{Final\_Project.ino}}
+\doxysubsubsection{\texorpdfstring{MATRIX\_DIN}{MATRIX\_DIN}}
+{\footnotesize\ttfamily \#define MATRIX\+\_\+\+DIN~12}
+
+\mbox{\Hypertarget{Final__Project_8ino_a2bd32349fcbeb6ee86434a65226cba1a}\label{Final__Project_8ino_a2bd32349fcbeb6ee86434a65226cba1a}} 
+\index{Final\_Project.ino@{Final\_Project.ino}!MATRIX\_SIZE@{MATRIX\_SIZE}}
+\index{MATRIX\_SIZE@{MATRIX\_SIZE}!Final\_Project.ino@{Final\_Project.ino}}
+\doxysubsubsection{\texorpdfstring{MATRIX\_SIZE}{MATRIX\_SIZE}}
+{\footnotesize\ttfamily \#define MATRIX\+\_\+\+SIZE~8}
+
+\mbox{\Hypertarget{Final__Project_8ino_a4e132cfaa78353e3af1474a86b2dd535}\label{Final__Project_8ino_a4e132cfaa78353e3af1474a86b2dd535}} 
+\index{Final\_Project.ino@{Final\_Project.ino}!MAX\_DEVICES@{MAX\_DEVICES}}
+\index{MAX\_DEVICES@{MAX\_DEVICES}!Final\_Project.ino@{Final\_Project.ino}}
+\doxysubsubsection{\texorpdfstring{MAX\_DEVICES}{MAX\_DEVICES}}
+{\footnotesize\ttfamily \#define MAX\+\_\+\+DEVICES~1}
+
+\mbox{\Hypertarget{Final__Project_8ino_a5fcd914889df46acf623f7d9a81654d7}\label{Final__Project_8ino_a5fcd914889df46acf623f7d9a81654d7}} 
+\index{Final\_Project.ino@{Final\_Project.ino}!PERIOD\_MS@{PERIOD\_MS}}
+\index{PERIOD\_MS@{PERIOD\_MS}!Final\_Project.ino@{Final\_Project.ino}}
+\doxysubsubsection{\texorpdfstring{PERIOD\_MS}{PERIOD\_MS}}
+{\footnotesize\ttfamily \#define PERIOD\+\_\+\+MS~(1000 / \mbox{\hyperlink{Final__Project_8ino_a1b04ec1cde4d3032f558ed8ad05930a4}{FREQ}})}
+
+\mbox{\Hypertarget{Final__Project_8ino_a445125ee8c34695376c85f10b38844d6}\label{Final__Project_8ino_a445125ee8c34695376c85f10b38844d6}} 
+\index{Final\_Project.ino@{Final\_Project.ino}!SERVICE\_UUID@{SERVICE\_UUID}}
+\index{SERVICE\_UUID@{SERVICE\_UUID}!Final\_Project.ino@{Final\_Project.ino}}
+\doxysubsubsection{\texorpdfstring{SERVICE\_UUID}{SERVICE\_UUID}}
+{\footnotesize\ttfamily \#define SERVICE\+\_\+\+UUID~\char`\"{}4fafc201-\/1fb5-\/459e-\/8fcc-\/c5c9c331914b\char`\"{}}
+
+\mbox{\Hypertarget{Final__Project_8ino_a57e90a2c385642983106d7d22835f1d6}\label{Final__Project_8ino_a57e90a2c385642983106d7d22835f1d6}} 
+\index{Final\_Project.ino@{Final\_Project.ino}!TARGET\_CHARACTERISTIC\_UUID@{TARGET\_CHARACTERISTIC\_UUID}}
+\index{TARGET\_CHARACTERISTIC\_UUID@{TARGET\_CHARACTERISTIC\_UUID}!Final\_Project.ino@{Final\_Project.ino}}
+\doxysubsubsection{\texorpdfstring{TARGET\_CHARACTERISTIC\_UUID}{TARGET\_CHARACTERISTIC\_UUID}}
+{\footnotesize\ttfamily \#define TARGET\+\_\+\+CHARACTERISTIC\+\_\+\+UUID~(uint16\+\_\+t)0x\+FF01}
+
+\mbox{\Hypertarget{Final__Project_8ino_aabcc6a42d88cc14934e723738e2ccea5}\label{Final__Project_8ino_aabcc6a42d88cc14934e723738e2ccea5}} 
+\index{Final\_Project.ino@{Final\_Project.ino}!TARGET\_DEVICE\_NAME@{TARGET\_DEVICE\_NAME}}
+\index{TARGET\_DEVICE\_NAME@{TARGET\_DEVICE\_NAME}!Final\_Project.ino@{Final\_Project.ino}}
+\doxysubsubsection{\texorpdfstring{TARGET\_DEVICE\_NAME}{TARGET\_DEVICE\_NAME}}
+{\footnotesize\ttfamily \#define TARGET\+\_\+\+DEVICE\+\_\+\+NAME~\char`\"{}CARLOS\+\_\+\+ESP32\char`\"{}}
+
+\mbox{\Hypertarget{Final__Project_8ino_ac61ff1ee3f7c6820e4b73a2d0ee30379}\label{Final__Project_8ino_ac61ff1ee3f7c6820e4b73a2d0ee30379}} 
+\index{Final\_Project.ino@{Final\_Project.ino}!TARGET\_SERVICE\_UUID@{TARGET\_SERVICE\_UUID}}
+\index{TARGET\_SERVICE\_UUID@{TARGET\_SERVICE\_UUID}!Final\_Project.ino@{Final\_Project.ino}}
+\doxysubsubsection{\texorpdfstring{TARGET\_SERVICE\_UUID}{TARGET\_SERVICE\_UUID}}
+{\footnotesize\ttfamily \#define TARGET\+\_\+\+SERVICE\+\_\+\+UUID~(uint16\+\_\+t)0x00\+FF}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{Final__Project_8ino_a5c178bf2831cb94712e23ff6920d2fcb}\label{Final__Project_8ino_a5c178bf2831cb94712e23ff6920d2fcb}} 
+\index{Final\_Project.ino@{Final\_Project.ino}!BleTransmit\_Task@{BleTransmit\_Task}}
+\index{BleTransmit\_Task@{BleTransmit\_Task}!Final\_Project.ino@{Final\_Project.ino}}
+\doxysubsubsection{\texorpdfstring{BleTransmit\_Task()}{BleTransmit\_Task()}}
+{\footnotesize\ttfamily void Ble\+Transmit\+\_\+\+Task (\begin{DoxyParamCaption}\item[{void $\ast$}]{pv\+Parameter }\end{DoxyParamCaption})}
+
+
+
+Free\+RTOS task running on Core 0 acting as a BLE Client to transmit matrix data. 
+
+Scans for the target BLE peripheral, establishes a connection, adjusts the MTU size, and waits for frames in the Free\+RTOS queue to transmit as a 64-\/byte ASCII payload. 
+\begin{DoxyParams}{Parameters}
+{\em pv\+Parameter} & Pointer to Free\+RTOS task parameters (unused). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+\mbox{\Hypertarget{Final__Project_8ino_a946eced3b45c8504a9bf53d2fb977a2d}\label{Final__Project_8ino_a946eced3b45c8504a9bf53d2fb977a2d}} 
+\index{Final\_Project.ino@{Final\_Project.ino}!initHardware@{initHardware}}
+\index{initHardware@{initHardware}!Final\_Project.ino@{Final\_Project.ino}}
+\doxysubsubsection{\texorpdfstring{initHardware()}{initHardware()}}
+{\footnotesize\ttfamily void init\+Hardware (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Initializes GPIO pins and the MAX7219 LED matrix hardware. 
+
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+\mbox{\Hypertarget{Final__Project_8ino_ade14abe260a22d89ee9ed61dabb43f81}\label{Final__Project_8ino_ade14abe260a22d89ee9ed61dabb43f81}} 
+\index{Final\_Project.ino@{Final\_Project.ino}!JoystickCheck\_Task@{JoystickCheck\_Task}}
+\index{JoystickCheck\_Task@{JoystickCheck\_Task}!Final\_Project.ino@{Final\_Project.ino}}
+\doxysubsubsection{\texorpdfstring{JoystickCheck\_Task()}{JoystickCheck\_Task()}}
+{\footnotesize\ttfamily void Joystick\+Check\+\_\+\+Task (\begin{DoxyParamCaption}\item[{void $\ast$}]{pv\+Parameter }\end{DoxyParamCaption})}
+
+
+
+Free\+RTOS task running on Core 1 to monitor joystick inputs and update the drawing matrix. 
+
+Reads analog inputs from the joystick, updates the internal coordinate trackers, illuminates the corresponding LED, and packages the final matrix frame into a queue upon button press. 
+\begin{DoxyParams}{Parameters}
+{\em pv\+Parameter} & Pointer to Free\+RTOS task parameters (unused). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+\mbox{\Hypertarget{Final__Project_8ino_afe461d27b9c48d5921c00d521181f12f}\label{Final__Project_8ino_afe461d27b9c48d5921c00d521181f12f}} 
+\index{Final\_Project.ino@{Final\_Project.ino}!loop@{loop}}
+\index{loop@{loop}!Final\_Project.ino@{Final\_Project.ino}}
+\doxysubsubsection{\texorpdfstring{loop()}{loop()}}
+{\footnotesize\ttfamily void loop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Standard Arduino infinite loop. 
+
+Task execution is handled by Free\+RTOS, so the main loop is permanently delayed to yield CPU time. \begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+\mbox{\Hypertarget{Final__Project_8ino_a4fc01d736fe50cf5b977f755b675f11d}\label{Final__Project_8ino_a4fc01d736fe50cf5b977f755b675f11d}} 
+\index{Final\_Project.ino@{Final\_Project.ino}!setup@{setup}}
+\index{setup@{setup}!Final\_Project.ino@{Final\_Project.ino}}
+\doxysubsubsection{\texorpdfstring{setup()}{setup()}}
+{\footnotesize\ttfamily void setup (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Standard Arduino setup initialization. 
+
+Initializes serial communication, hardware peripherals, Free\+RTOS queues, and spawns the joystick and BLE application tasks. \begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+\mbox{\Hypertarget{Final__Project_8ino_ac33f73562bdf747f079b1f0f99f0a758}\label{Final__Project_8ino_ac33f73562bdf747f079b1f0f99f0a758}} 
+\index{Final\_Project.ino@{Final\_Project.ino}!updateLedMatrix@{updateLedMatrix}}
+\index{updateLedMatrix@{updateLedMatrix}!Final\_Project.ino@{Final\_Project.ino}}
+\doxysubsubsection{\texorpdfstring{updateLedMatrix()}{updateLedMatrix()}}
+{\footnotesize\ttfamily void update\+Led\+Matrix (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{x,  }\item[{uint8\+\_\+t}]{y,  }\item[{bool}]{clear }\end{DoxyParamCaption})}
+
+
+
+Helper function to update the local MAX7219 LED matrix display. 
+
+Can either illuminate a specific coordinate or execute a full hardware and software reset of the canvas. 
+\begin{DoxyParams}{Parameters}
+{\em x} & X-\/coordinate (column) to illuminate. \\
+\hline
+{\em y} & Y-\/coordinate (row) to illuminate. \\
+\hline
+{\em clear} & Boolean flag. If true, the matrix hardware and local tracker are wiped clean. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{Final__Project_8ino_af7ae5b574822961274559380c9306104}\label{Final__Project_8ino_af7ae5b574822961274559380c9306104}} 
+\index{Final\_Project.ino@{Final\_Project.ino}!mx@{mx}}
+\index{mx@{mx}!Final\_Project.ino@{Final\_Project.ino}}
+\doxysubsubsection{\texorpdfstring{mx}{mx}}
+{\footnotesize\ttfamily MD\+\_\+\+MAX72\+XX mx = MD\+\_\+\+MAX72\+XX(\mbox{\hyperlink{Final__Project_8ino_a04988e7d812ffad244fd37a708b92536}{HARDWARE\+\_\+\+TYPE}}, \mbox{\hyperlink{Final__Project_8ino_a5e098f52094d98577aa4dc759f0e4414}{MATRIX\+\_\+\+DIN}}, \mbox{\hyperlink{Final__Project_8ino_a12110f2bb46e92516a91a26f6afe2ee6}{MATRIX\+\_\+\+CLK}}, \mbox{\hyperlink{Final__Project_8ino_acb8839fd1b25347c6fb30bf7e16a993f}{MATRIX\+\_\+\+CS}}, \mbox{\hyperlink{Final__Project_8ino_a4e132cfaa78353e3af1474a86b2dd535}{MAX\+\_\+\+DEVICES}})}
+

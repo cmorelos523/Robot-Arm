@@ -1,0 +1,86 @@
+\hypertarget{matrix_8h}{}\doxysection{Final\+\_\+\+Lab\+\_\+\+Motor\+\_\+\+Control/\+Final\+\_\+\+Lab\+\_\+\+Motor\+\_\+\+Control/main/matrix.h File Reference}
+\label{matrix_8h}\index{Final\_Lab\_Motor\_Control/Final\_Lab\_Motor\_Control/main/matrix.h@{Final\_Lab\_Motor\_Control/Final\_Lab\_Motor\_Control/main/matrix.h}}
+{\ttfamily \#include $<$inttypes.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}servos.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}freertos/\+Free\+RTOS.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}freertos/task.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Free\+RTOSConfig.\+h\char`\"{}}\newline
+Include dependency graph for matrix.\+h\+:
+% FIG 0
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structcoord__info}{coord\+\_\+info}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{matrix_8h_a6112c11e8f7a9382ad250000ea96b411}{path\+\_\+finder}} (uint8\+\_\+t led\+\_\+matrix\mbox{[}$\,$\mbox{]}\mbox{[}8\mbox{]}, int curr\+\_\+row, int curr\+\_\+column)
+\begin{DoxyCompactList}\small\item\em This function contains the main path finder algorithm used to traverse the received 2D matrix and draw the image. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{matrix_8h_a9c462f07435bd75c7f10d834093ed6ef}{matrix\+\_\+set\+\_\+up}} (void)
+\begin{DoxyCompactList}\small\item\em This function sets up the 2D matrix \char`\"{}coordinates\char`\"{} (angles) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structcoord__info}{coord\+\_\+info}} \mbox{\hyperlink{matrix_8h_ac603b7c4e318bc9e593731fc031292b5}{matrix}} \mbox{[}8\mbox{]}\mbox{[}8\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{matrix_8h_a9c462f07435bd75c7f10d834093ed6ef}\label{matrix_8h_a9c462f07435bd75c7f10d834093ed6ef}} 
+\index{matrix.h@{matrix.h}!matrix\_set\_up@{matrix\_set\_up}}
+\index{matrix\_set\_up@{matrix\_set\_up}!matrix.h@{matrix.h}}
+\doxysubsubsection{\texorpdfstring{matrix\_set\_up()}{matrix\_set\_up()}}
+{\footnotesize\ttfamily void matrix\+\_\+set\+\_\+up (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+This function sets up the 2D matrix \char`\"{}coordinates\char`\"{} (angles) 
+
+Each point on the LED matrix has an associated pair of angles needed to get to it, one for servo 1, the other for servo 2, and an index. This functions sets it up 
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+\mbox{\Hypertarget{matrix_8h_a6112c11e8f7a9382ad250000ea96b411}\label{matrix_8h_a6112c11e8f7a9382ad250000ea96b411}} 
+\index{matrix.h@{matrix.h}!path\_finder@{path\_finder}}
+\index{path\_finder@{path\_finder}!matrix.h@{matrix.h}}
+\doxysubsubsection{\texorpdfstring{path\_finder()}{path\_finder()}}
+{\footnotesize\ttfamily void path\+\_\+finder (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{led\+\_\+matrix\mbox{[}$\,$\mbox{]}\mbox{[}8\mbox{]},  }\item[{int}]{curr\+\_\+row,  }\item[{int}]{curr\+\_\+column }\end{DoxyParamCaption})}
+
+
+
+This function contains the main path finder algorithm used to traverse the received 2D matrix and draw the image. 
+
+Uses a recursive depth first search approach to explore the 2D LED matrix received via BLE, setting the servos to their appropiate angle on every step. Points explored are marked and set to 2. Order of exploration follows the cardinal directions\+:
+\begin{DoxyEnumerate}
+\item Top
+\item Right
+\item Down
+\item Left 
+\begin{DoxyParams}{Parameters}
+{\em led\+\_\+matrix} & 2D matrix currently being explored \\
+\hline
+{\em curr\+\_\+row} & Index of current row the function is exploring \\
+\hline
+{\em curr\+\_\+column} & Index of current column the function is exploring \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+
+\end{DoxyEnumerate}
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{matrix_8h_ac603b7c4e318bc9e593731fc031292b5}\label{matrix_8h_ac603b7c4e318bc9e593731fc031292b5}} 
+\index{matrix.h@{matrix.h}!matrix@{matrix}}
+\index{matrix@{matrix}!matrix.h@{matrix.h}}
+\doxysubsubsection{\texorpdfstring{matrix}{matrix}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structcoord__info}{coord\+\_\+info}} matrix\mbox{[}8\mbox{]}\mbox{[}8\mbox{]}\hspace{0.3cm}{\ttfamily [extern]}}
+
